@@ -1,0 +1,17 @@
+{
+  "name": "MapJsonFileCrawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "async": "^3.2.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "server": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
