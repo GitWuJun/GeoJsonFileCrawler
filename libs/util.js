@@ -1,5 +1,9 @@
+const BASE_URI = 'https://geo.datav.aliyun.com/areas_v2/bound/'
+const ROOTPATH = 'map/'
 const { getEnumKey, AreaGrade } = require('./enumApi')
+const request = require('request');
 
+const fs = require('fs')
 
 function isProvinceId(id) {
     return Number.isInteger(id / 10000) && (id + '').length === 6;
@@ -81,8 +85,55 @@ function getAreaGrade(id) {
     }
 }
 
+function creatFileUri(areaId) {
+    let areaKey = getAreaGrade(areaId);
+    if (AreaGrade[areaKey].value > AreaGrade.CITY.value) {
+        return `${BASE_URI}${areaId}.json`
+    } else {
+        return `${BASE_URI}${areaId}_full.json`
+    }
+}
+
+function createDir(dirPath) {
+    dirPath = ROOTPATH + dirPath + '';
+    let exist = fs.existsSync(dirPath)
+    if (!exist) {
+        fs.mkdirSync(dirPath);
+    }
+    return Promise.resolve();
+}
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+//从命令行中获取输入的areaid
+function getCliAreaId() {
+    let areaid = process.argv.slice(2).pop()
+    if (!areaid || areaid.length !=6) {
+        console.log('请输入正确的区域id!')
+    } else if (Number.isInteger(Number(areaid))) {
+        targetAreaId = areaid;
+        return targetAreaId;
+    } else {
+        console.error('参数错误！')
+    }
+}
+
+function requestData(url) {
+    return new Promise((resolve, reject) => {
+        request(url,(err,res) => {
+            if(err){
+                reject(err)
+            }else{
+                try {
+                    resolve(JSON.parse(res.body))       
+                } catch (error) {
+                    reject(error)
+                }
+            }
+        })
+    })
 }
 
 module.exports = {
@@ -90,5 +141,11 @@ module.exports = {
     isCountryId,
     getAreaGrade,
     getProvinceId,
-    sleep
+    sleep,
+    creatFileUri,
+    createDir,
+    BASE_URI,
+    ROOTPATH,
+    requestData,
+    getCliAreaId
 }

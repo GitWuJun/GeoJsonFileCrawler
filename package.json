@@ -9,7 +9,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "server": "node app.js"
+    "server": "node ./src/app.js",
+    "area": "node ./src/getAreaGeoData.js"
   },
   "keywords": [],
   "author": "",

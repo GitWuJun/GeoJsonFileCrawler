@@ -1,24 +1,11 @@
 const { downLoadFile } = require('./downLoadFile');
 const { parseFile } = require('./parseFile');
 const async = require('async');
+const {getCliAreaId} = require('../libs/util')
 
 let targetAreaId = 0;//
 
 let count = 0;
-
-//从命令行中获取输入的areaid
-function getCliAreaId() {
-    let areaid = process.argv.slice(2).pop()
-    if (!areaid) {
-        console.log('请输入区域id!')
-    } else if (Number.isInteger(Number(areaid))) {
-        targetAreaId = areaid;
-        return targetAreaId;
-    } else {
-        console.error('参数错误！')
-    }
-}
-
 
 async function downLoadAllArea(areaId) {
     let areaList = await downLoadAndParse(areaId);
@@ -31,7 +18,7 @@ async function downLoadAllArea(areaId) {
         //         await downLoadAllArea(element.areaId)
         //     }
         // }))
-        async.mapLimit(areaList, 3, async area => {
+        async.mapLimit(areaList, 1, async area => {
             await downLoadAllArea(area.areaId)
         })
     } else {
@@ -54,3 +41,7 @@ async function downLoadAndParse(areaId) {
         await downLoadAllArea(targetAreaId)
     }
 })()
+
+module.exports = {
+    downLoadAndParse
+}
