@@ -8,7 +8,7 @@
     如`npm run server 430000`(下载湖南下辖所有市、区、县的地图文件) `npm run server 430100`(下载长沙下辖所有区县的地图文件)
 4. 最后会将文件下载到`map`文件夹下(以省id作为文件夹)
 5. 根据区域id获取该地区下直属子区域的名称和areaId:`npm run area 「区域id」`(会在控制台直接打印出),例如`npm run server 430000`(获取湖南省直属子区域信息)
-![20210312094556.png](https://gitee.com/GitWuJun/MyPicBed/raw/master/images/20210312094556.png)
+![20210312094556.png](https://wujun-pic-bed.oss-cn-chengdu.aliyuncs.com/img/20230128160927.png)
 
 
 ### 中国所有省/直辖市/特别行政区的名称与areaId
